@@ -11,7 +11,7 @@ class YourBot(telepot.Bot):
         # normal message
         if flavor == 'normal':
             content_type, chat_type, chat_id = telepot.glance2(msg)
-            print('Normal Message:', content_type, chat_type, chat_id)
+            print('Normal Message:', content_type, chat_type, chat_id, '; message content: ', msg)
 
             self.sendMessage(chat_id=chat_id, text='Sorry, there are lmiited words I can understand please try again or use /help for assistance.')
 
