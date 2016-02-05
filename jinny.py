@@ -13,7 +13,7 @@ class YourBot(telepot.Bot):
             content_type, chat_type, chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, chat_id)
 
-            self.sendMessage(chat_id=chat_id, 'Sorry, there are lmiited words I can understand please try again or use /help for assistance.')
+            self.sendMessage(chat_id=chat_id, text='Sorry, there are lmiited words I can understand please try again or use /help for assistance.')
 
         # inline query - need `/setinline`
         elif flavor == 'inline_query':
