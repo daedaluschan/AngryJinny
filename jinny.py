@@ -3,6 +3,31 @@ import sys
 import time
 import telepot
 
+from datetime import date
+from types import *
+
+
+class Jinny:
+  myName = "Jinny Chan"
+  myDOB = date(2015,6,24)
+
+  @staticmethod
+  def getNumOfDays():
+    currentDate = date.today()
+    return (currentDate - Jinny.myDOB).days + 1
+
+  @staticmethod
+  def getNumOfDaysSpecific(whichDateIn):
+    if type(whichDateIn) is StringType:
+      whichDate = ""
+      for charact in whichDateIn:
+        if charact.isdigit():
+          whichDate = whichDate + charact
+      theDate = date(int(whichDate[0:4]),int(whichDate[4:6]),int(whichDate[6:8]))
+    else:
+      theDate = whichDateIn
+
+    return (theDate - Jinny.myDOB).days + 1
 
 class YourBot(telepot.Bot):
     def handle(self, msg):
@@ -13,7 +38,17 @@ class YourBot(telepot.Bot):
             content_type, chat_type, chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, chat_id, '; message content: ', msg)
 
-            self.sendMessage(chat_id=chat_id, text='Sorry, there are lmiited words I can understand please try again or use /help for assistance.')
+            if msg['text'] == '/start' or msg['text'] == '/today':
+                self.sendMessage(chat_id=chat_id, text='Today is ' + str(date.today()) + '. \n' +
+                                                       'It is Jinny\'s day ' + str(Jinny.getNumOfDays()) + '. \n' +
+                                                       'Use /help for more options')
+            elif msg['text'] == '/help':
+                self.sendMessage(chat_id=chat_id, text='/today - get today\'s date and Jinny\'s day. \n' +
+                                                       '/help - help menu. \n' +
+                                                       '/query - check the number of days for a particular date. \n')
+            else:
+                self.sendMessage(chat_id=chat_id, text='I don\'t understand what you are saying !\n' +
+                                                       'please try again or use /help for assistance.')
 
         # inline query - need `/setinline`
         elif flavor == 'inline_query':
