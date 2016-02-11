@@ -58,49 +58,6 @@ class AngryJinny(telepot.helper.ChatHandler):
         else:
             raise telepot.BadFlavor(msg)
 
-class YourBot(telepot.Bot):
-    def handle(self, msg):
-        flavor = telepot.flavor(msg)
-
-        # normal message
-        if flavor == 'normal':
-            content_type, chat_type, chat_id = telepot.glance2(msg)
-            print('Normal Message:', content_type, chat_type, chat_id, '; message content: ', msg)
-
-            if msg['text'] == '/start' or msg['text'] == '/today':
-                self.sendMessage(chat_id=chat_id, text='Today is ' + str(date.today()) + '. \n' +
-                                                       'It is Jinny\'s day ' + str(Jinny.getNumOfDays()) + '. \n' +
-                                                       'Use /help for more options')
-            elif msg['text'] == '/help':
-                self.sendMessage(chat_id=chat_id, text='/today - get today\'s date and Jinny\'s day. \n' +
-                                                       '/help - help menu. \n' +
-                                                       '/query - check the number of days for a particular date. \n')
-            else:
-                self.sendMessage(chat_id=chat_id, text='I don\'t understand what you are saying !\n' +
-                                                       'please try again or use /help for assistance.')
-
-        # inline query - need `/setinline`
-        elif flavor == 'inline_query':
-            query_id, from_id, query_string = telepot.glance2(msg, flavor=flavor)
-            print('Inline Query:', query_id, from_id, query_string)
-
-            # Compose your own answers
-            articles = [{'type': 'article',
-                            'id': 'abc', 'title': 'ABC', 'message_text': 'Good morning'}]
-
-            bot.answerInlineQuery(query_id, articles)
-
-        # chosen inline result - need `/setinlinefeedback`
-        elif flavor == 'chosen_inline_result':
-            result_id, from_id, query_string = telepot.glance2(msg, flavor=flavor)
-            print('Chosen Inline Result:', result_id, from_id, query_string)
-
-            # Remember the chosen answer to do better next time
-
-        else:
-            raise telepot.BadFlavor(msg)
-
-
 TOKEN = sys.argv[1]  # get token from command-line
 
 bot = telepot.DelegatorBot(TOKEN, [
