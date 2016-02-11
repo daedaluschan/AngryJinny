@@ -18,7 +18,7 @@ class Jinny:
 
   @staticmethod
   def getNumOfDaysSpecific(whichDateIn):
-    if type(whichDateIn) is StringType:
+    if type(whichDateIn) is StringType or type(whichDateIn) is UnicodeType:
       whichDate = ""
       for charact in whichDateIn:
         if charact.isdigit():
@@ -44,29 +44,27 @@ class AngryJinny(telepot.helper.ChatHandler):
             content_type, chat_type, _chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
-            if self._asking_date:
-                if msg['text'] == '/No' :
-                    self._asking_date = False
-                    self.sender.sendMessage(text='Bye !')
-                else:
-                    self.sender.sendMessage(text='For ' + msg['text'] + ', It is my day ' +
+            if msg['text'] == '/start' or msg['text'] == '/today':
+                self.sender.sendMessage(text='Today is ' + str(date.today()) + '. \n' +
+                                                       'It is my day ' + str(Jinny.getNumOfDays()) + '. \n' +
+                                                       'Use /help for more options')
+            elif msg['text'] == '/help':
+                self.sender.sendMessage(text='/today - get today\'s date and my day count. \n' +
+                                                       '/help - for those who have bad memory. \n' +
+                                                       '/query - check my day count for a particular date. \n')
+            elif msg['text'] == '/query':
+                self._asking_date = True
+                self.sender.sendMessage(text='Which date ar ?')
+            elif msg['text'] == '/No' :
+                self._asking_date = False
+                self.sender.sendMessage(text='Bye !')
+            elif self._asking_date:
+                self.sender.sendMessage(text='For ' + msg['text'] + ', It is my day ' +
                                              str(Jinny.getNumOfDaysSpecific(msg['text'])) +
                                              '. Any other date to ask ? /No ?')
             else:
-                if msg['text'] == '/start' or msg['text'] == '/today':
-                    self.sender.sendMessage(text='Today is ' + str(date.today()) + '. \n' +
-                                                           'It is my day ' + str(Jinny.getNumOfDays()) + '. \n' +
-                                                           'Use /help for more options')
-                elif msg['text'] == '/help':
-                    self.sender.sendMessage(text='/today - get today\'s date and my day count. \n' +
-                                                           '/help - for those who have bad memory. \n' +
-                                                           '/query - check my day count for a particular date. \n')
-                elif msg['text'] == '/query':
-                    self._asking_date = True
-                    self.sender.sendMessage(text='Which date ar ?')
-                else:
-                    self.sender.sendMessage(text='I don\'t understand what you are saying !\n' +
-                                                           'Try again ! Or use /help for assistance.')
+                self.sender.sendMessage(text='I don\'t understand what you are saying !\n' +
+                                                       'Try again ! Or use /help for assistance.')
         else:
             raise telepot.BadFlavor(msg)
 
