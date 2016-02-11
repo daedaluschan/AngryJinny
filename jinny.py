@@ -44,27 +44,36 @@ class AngryJinny(telepot.helper.ChatHandler):
             content_type, chat_type, _chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
-            if msg['text'] == '/start' or msg['text'] == '/today':
-                self.sender.sendMessage(text='Today is ' + str(date.today()) + '. \n' +
-                                                       'It is Jinny\'s day ' + str(Jinny.getNumOfDays()) + '. \n' +
-                                                       'Use /help for more options')
-            elif msg['text'] == '/help':
-                self.sender.sendMessage(text='/today - get today\'s date and Jinny\'s day. \n' +
-                                                       '/help - help menu. \n' +
-                                                       '/query - check the number of days for a particular date. \n')
+            if self._asking_date:
+                if msg['text'] == '/No' :
+                    self._asking_date = False
+                    self.sender.sendMessage(text='Bye !')
+                else:
+                    self.sender.sendMessage(text='For ' + msg['text'] + ', It is my day ' +
+                                             str(Jinny.getNumOfDaysSpecific(msg['text'])) +
+                                             '. Any other date to ask ? /No ?')
             else:
-                self.sender.sendMessage(text='I don\'t understand what you are saying !\n' +
-                                                       'please try again or use /help for assistance.')
+                if msg['text'] == '/start' or msg['text'] == '/today':
+                    self.sender.sendMessage(text='Today is ' + str(date.today()) + '. \n' +
+                                                           'It is my day ' + str(Jinny.getNumOfDays()) + '. \n' +
+                                                           'Use /help for more options')
+                elif msg['text'] == '/help':
+                    self.sender.sendMessage(text='/today - get today\'s date and my day count. \n' +
+                                                           '/help - for those who have bad memory. \n' +
+                                                           '/query - check my day count for a particular date. \n')
+                elif msg['text'] == '/query':
+                    self._asking_date = True
+                    self.sender.sendMessage(text='Which date ar ?')
+                else:
+                    self.sender.sendMessage(text='I don\'t understand what you are saying !\n' +
+                                                           'Try again ! Or use /help for assistance.')
         else:
             raise telepot.BadFlavor(msg)
 
 TOKEN = sys.argv[1]  # get token from command-line
 
 bot = telepot.DelegatorBot(TOKEN, [
-    (per_chat_id(), create_open(AngryJinny, timeout=10)),])
-bot.notifyOnMessage(run_forever=True)
+    (per_chat_id(), create_open(AngryJinny, timeout=30)),])
 print('Listening ...')
+bot.notifyOnMessage(run_forever=True)
 
-# Keep the program running.
-# while 1:
-#     time.sleep(10)
