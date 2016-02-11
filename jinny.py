@@ -41,19 +41,19 @@ class AngryJinny(telepot.helper.ChatHandler):
 
         # normal message
         if flavor == 'normal':
-            content_type, chat_type, chat_id = telepot.glance2(msg)
-            print('Normal Message:', content_type, chat_type, chat_id, '; message content: ', msg)
+            content_type, chat_type, _chat_id = telepot.glance2(msg)
+            print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
             if msg['text'] == '/start' or msg['text'] == '/today':
-                self.sender.sendMessage(chat_id=chat_id, text='Today is ' + str(date.today()) + '. \n' +
+                self.sender.sendMessage(chat_id=_chat_id, text='Today is ' + str(date.today()) + '. \n' +
                                                        'It is Jinny\'s day ' + str(Jinny.getNumOfDays()) + '. \n' +
                                                        'Use /help for more options')
             elif msg['text'] == '/help':
-                self.sender.sendMessage(chat_id=chat_id, text='/today - get today\'s date and Jinny\'s day. \n' +
+                self.sender.sendMessage(chat_id=_chat_id, text='/today - get today\'s date and Jinny\'s day. \n' +
                                                        '/help - help menu. \n' +
                                                        '/query - check the number of days for a particular date. \n')
             else:
-                self.sender.sendMessage(chat_id=chat_id, text='I don\'t understand what you are saying !\n' +
+                self.sender.sendMessage(chat_id=_chat_id, text='I don\'t understand what you are saying !\n' +
                                                        'please try again or use /help for assistance.')
         else:
             raise telepot.BadFlavor(msg)
