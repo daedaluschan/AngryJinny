@@ -59,9 +59,13 @@ class AngryJinny(telepot.helper.ChatHandler):
                 self._asking_date = False
                 self.sender.sendMessage(text='Bye !')
             elif self._asking_date:
-                self.sender.sendMessage(text='For ' + msg['text'] + ', It is my day ' +
-                                             str(Jinny.getNumOfDaysSpecific(msg['text'])) +
-                                             '. Any other date to ask ? /No ?')
+                try :
+                    self.sender.sendMessage(text='For ' + msg['text'] + ', It is my day ' +
+                                                 str(Jinny.getNumOfDaysSpecific(msg['text'])) +
+                                                 '. Any other date to ask ? /No ?')
+                except BaseException :
+                    self.sender.sendMessage(text='Not a data that I can understand ! \n' +
+                                                 'What date (YYYYMMDD) ? \nOr you done ? ( /No )')
             else:
                 self.sender.sendMessage(text='I don\'t understand what you are saying !\n' +
                                                        'Try again ! Or use /help for assistance.')
