@@ -1,5 +1,6 @@
 __author__ = 'daedaluschan'
 
+import sys, time
 import telepot
 from telepot.delegate import per_chat_id, create_open
 
