@@ -1,3 +1,4 @@
+# coding=UTF8
 __author__ = 'daedaluschan'
 
 import sys, time
@@ -6,9 +7,10 @@ from telepot.delegate import per_chat_id, create_open
 
 from datetime import date
 from types import *
+from chk_n_conv import  chkNConv
 
 class Jinny:
-  myName = "Jinny Chan"
+  myName = u'Jinny Chan'
   myDOB = date(2015,6,24)
 
   @staticmethod
@@ -19,7 +21,7 @@ class Jinny:
   @staticmethod
   def getNumOfDaysSpecific(whichDateIn):
     if type(whichDateIn) is StringType or type(whichDateIn) is UnicodeType:
-      whichDate = ""
+      whichDate = u''
       for charact in whichDateIn:
         if charact.isdigit():
           whichDate = whichDate + charact
@@ -44,31 +46,31 @@ class AngryJinny(telepot.helper.ChatHandler):
             content_type, chat_type, _chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
-            if msg['text'] == '/start' or msg['text'] == '/today':
-                self.sender.sendMessage(text='Today is ' + str(date.today()) + '. \n' +
-                                                       'It is my day ' + str(Jinny.getNumOfDays()) + '. \n' +
-                                                       'Use /help for more options')
-            elif msg['text'] == '/help':
-                self.sender.sendMessage(text='/today - get today\'s date and my day count. \n' +
-                                                       '/help - for those who have bad memory. \n' +
-                                                       '/query - check my day count for a particular date. \n')
-            elif msg['text'] == '/query':
+            if chkNConv(msg['text']) == u'/start' or chkNConv(msg['text']) == u'/today':
+                self.sender.sendMessage(text=u'Today is ' + chkNConv(str(date.today())) + u'. \n' +
+                                                       u'It is my day ' + chkNConv(str(Jinny.getNumOfDays())) + u'. \n' +
+                                                       u'Use /help for more options')
+            elif chkNConv(msg['text']) == u'/help':
+                self.sender.sendMessage(text=u'/today - get today\'s date and my day count. \n' +
+                                                       u'/help - for those who have bad memory. \n' +
+                                                       u'/query - check my day count for a particular date. \n')
+            elif chkNConv(msg['text']) == u'/query':
                 self._asking_date = True
-                self.sender.sendMessage(text='Which date ar ?')
-            elif msg['text'] == '/No' :
+                self.sender.sendMessage(text=u'Which date ar ?')
+            elif chkNConv(msg['text']) == u'/No' :
                 self._asking_date = False
-                self.sender.sendMessage(text='Bye !')
+                self.sender.sendMessage(text=u'Bye !')
             elif self._asking_date:
                 try :
-                    self.sender.sendMessage(text='For ' + msg['text'] + ', It is my day ' +
-                                                 str(Jinny.getNumOfDaysSpecific(msg['text'])) +
-                                                 '. Any other date to ask ? /No ?')
+                    self.sender.sendMessage(text=u'For ' + chkNConv(msg['text']) + u', It is my day ' +
+                                                 chkNConv(str(Jinny.getNumOfDaysSpecific(msg['text']))) +
+                                                 u'. Any other date to ask ? /No ?')
                 except BaseException :
-                    self.sender.sendMessage(text='Not a data that I can understand ! \n' +
-                                                 'What date (YYYYMMDD) ? \nOr you done ? ( /No )')
+                    self.sender.sendMessage(text=u'Not a data that I can understand ! \n' +
+                                                 u'What date (YYYYMMDD) ? \nOr you done ? ( /No )')
             else:
-                self.sender.sendMessage(text='I don\'t understand what you are saying !\n' +
-                                                       'Try again ! Or use /help for assistance.')
+                self.sender.sendMessage(text=u'I don\'t understand what you are saying !\n' +
+                                                       u'Try again ! Or use /help for assistance.')
         else:
             raise telepot.BadFlavor(msg)
 
