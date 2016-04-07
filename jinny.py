@@ -35,7 +35,19 @@ class AngryJinny(telepot.helper.ChatHandler):
     def __init__(self, seed_tuple, timeout):
         super(AngryJinny, self).__init__(seed_tuple, timeout)
         self._asking_date = False
+        self.to_buy_list = []
         print('constructor is being called')
+
+    @property
+    def to_buy_list(self):
+        return self._to_buy_list
+
+    @to_buy_list.setter
+    def to_buy_list(self, value):
+        self._to_buy_list = value
+
+    def genKeyboard(self):
+        print('generate keyboard')
 
     def on_message(self, msg):
         print('on_message() is being called')
