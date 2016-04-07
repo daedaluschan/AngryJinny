@@ -48,6 +48,8 @@ class AngryJinny(telepot.helper.ChatHandler):
 
     def genKeyboard(self):
         print('generate keyboard')
+        show_keyboard = {'keyboard': [[u'今日 day 幾',u'某日係 day 幾'], [u'有野要買']]}
+        return show_keyboard
 
     def on_message(self, msg):
         print('on_message() is being called')
@@ -58,20 +60,23 @@ class AngryJinny(telepot.helper.ChatHandler):
             content_type, chat_type, _chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
-            if chkNConv(msg['text']) == u'/start' or chkNConv(msg['text']) == u'/today':
+            if chkNConv(msg['text']) == u'/start' or chkNConv(msg['text']) == u'/today' or chkNConv(msg['text']) == u'今日 day 幾':
                 self.sender.sendMessage(text=u'Today is ' + chkNConv(str(date.today())) + u'. \n' +
                                                        u'It is my day ' + chkNConv(str(Jinny.getNumOfDays())) + u'. \n' +
-                                                       u'Use /help for more options')
+                                                       u'Use /help for more options',
+                                        reply_markup=self.genKeyboard())
             elif chkNConv(msg['text']) == u'/help':
                 self.sender.sendMessage(text=u'/today - get today\'s date and my day count. \n' +
                                                        u'/help - for those who have bad memory. \n' +
-                                                       u'/query - check my day count for a particular date. \n')
-            elif chkNConv(msg['text']) == u'/query':
+                                                       u'/query - check my day count for a particular date. \n',
+                                        reply_markup=self.genKeyboard())
+            elif chkNConv(msg['text']) == u'/query' or chkNConv(msg['text']) == u'某日係 day 幾':
                 self._asking_date = True
-                self.sender.sendMessage(text=u'Which date ar ?')
+                self.sender.sendMessage(text=u'Which date ar ?', reply_marku={'hide_keyboard': True})
             elif chkNConv(msg['text']) == u'/No' :
                 self._asking_date = False
-                self.sender.sendMessage(text=u'Bye !')
+                self.sender.sendMessage(text=u'Bye !',
+                                        reply_markup=self.genKeyboard())
             elif self._asking_date:
                 try :
                     self.sender.sendMessage(text=u'For ' + chkNConv(msg['text']) + u', It is my day ' +
