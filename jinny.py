@@ -9,6 +9,7 @@ from datetime import date
 from types import *
 from chk_n_conv import  chkNConv
 from enum import Enum
+import re
 
 to_buy_list = []
 white_list = [161517202]
@@ -76,7 +77,9 @@ class AngryJinny(telepot.helper.ChatHandler):
                 f.write(u'\n'.encode('utf-8'))
         f.close()
 
-
+    def boughtItem(self, del_index):
+        del to_buy_list[del_index]
+        self.writeListToFile()
 
     def on_message(self, msg):
         print('on_message() is being called')
@@ -112,6 +115,11 @@ class AngryJinny(telepot.helper.ChatHandler):
                         self.sender.sendMessage(text=u'買乜？', reply_markup={'hide_keyboard': True})
                     elif chkNConv(msg['text']) == u'有乜未買？':
                         self.sender.sendMessage(text=self.genBuyList(), reply_markup=self.genKeyboard())
+                    elif re.compile(u'買左\[\d+\].*').match(chkNConv(msg['text'])) != None:
+                        match_obj = re.compile(u'買左\[(\d+)\].*').match(chkNConv(msg['text']))
+                        del_index = match_obj.group(1)
+                        self.boughtItem(del_index=del_index)
+
                     else:
                         self.sender.sendMessage(text=u'我唔明呀。\n' +
                                                      u'你試多次啦。或者用 /help 我就教你用。')
