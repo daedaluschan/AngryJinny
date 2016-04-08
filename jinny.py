@@ -12,7 +12,7 @@ from enum import Enum
 
 to_buy_list = []
 white_list = [161517202]
-
+file_name = 'list.txt'
 
 class ConverType(Enum):
     nothing = 1
@@ -67,11 +67,19 @@ class AngryJinny(telepot.helper.ChatHandler):
             self.bot.sendMessage(white_user, self.genBuyList())
 
     def writeListToFile(self):
-        with open(name='list.txt', mode='w') as f:
+        with open(name=file_name, mode='w') as f:
             for item in to_buy_list:
                 f.write(item.encode('utf-8'))
                 f.write(u'\n'.encode('utf-8'))
         f.close()
+
+    def readFromFile(self):
+        with open(name=file_name, mode='r') as f:
+            lines = f.read().splitlines()
+        f.close()
+
+        to_buy_list = lines
+
 
     def on_message(self, msg):
         print('on_message() is being called')
