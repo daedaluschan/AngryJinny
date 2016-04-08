@@ -159,7 +159,7 @@ f.close()
 to_buy_list = lines
 
 bot = telepot.DelegatorBot(TOKEN, [
-    (per_chat_id(), create_open(AngryJinny, timeout=30)),])
+    (per_chat_id(), create_open(AngryJinny, timeout=120)),])
 print('Listening ...')
 bot.notifyOnMessage(run_forever=True)
 
