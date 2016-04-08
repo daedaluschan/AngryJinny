@@ -118,7 +118,7 @@ class AngryJinny(telepot.helper.ChatHandler):
                     elif re.compile(u'買左\[\d+\].*').match(chkNConv(msg['text'])) != None:
                         match_obj = re.compile(u'買左\[(\d+)\].*').match(chkNConv(msg['text']))
                         del_index = match_obj.group(1)
-                        self.boughtItem(del_index=del_index)
+                        self.boughtItem(del_index=int(del_index))
 
                     else:
                         self.sender.sendMessage(text=u'我唔明呀。\n' +
