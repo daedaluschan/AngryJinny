@@ -8,6 +8,11 @@ from telepot.delegate import per_chat_id, create_open
 from datetime import date
 from types import *
 from chk_n_conv import  chkNConv
+from enum import Enum
+
+class ConverType(Enum):
+    nothing = 1
+    create_poll = 2
 
 class Jinny:
   myName = u'Jinny Chan'
@@ -48,7 +53,7 @@ class AngryJinny(telepot.helper.ChatHandler):
 
     def genKeyboard(self):
         print('generate keyboard')
-        show_keyboard = {'keyboard': [[u'今日 day 幾',u'某日係 day 幾'], [u'有野要買']]}
+        show_keyboard = {'keyboard': [[u'今日 day 幾',u'某日係 day 幾'], [u'有乜未買？', u'有野要買']]}
         return show_keyboard
 
     def on_message(self, msg):
