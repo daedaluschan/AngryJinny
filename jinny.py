@@ -66,6 +66,12 @@ class AngryJinny(telepot.helper.ChatHandler):
         for white_user in white_list:
             self.bot.sendMessage(white_user, self.genBuyList())
 
+    def writeListToFile(self):
+        with open(name='list,txt', mode='w', encoding='UTF-8') as f:
+            for item in to_buy_list:
+                f.write(chkNConv(item) + u'\n')
+        f.close()
+
     def on_message(self, msg):
         print('on_message() is being called')
         flavor = telepot.flavor(msg)
@@ -115,6 +121,7 @@ class AngryJinny(telepot.helper.ChatHandler):
                     if chkNConv(msg['text']) == u'/done':
                         self._convert_type = ConverType.nothing
                         self.doneWithBuyList()
+                        self.writeListToFile()
                     else:
                         to_buy_list.append(chkNConv(msg['text']))
                         self.sender.sendMessage(text=u'仲有冇？如果冇，就用 /done 完結。', reply_markup={'hide_keyboard': True})
