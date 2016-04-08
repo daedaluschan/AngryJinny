@@ -72,7 +72,7 @@ class AngryJinny(telepot.helper.ChatHandler):
                                         reply_markup=self.genKeyboard())
             elif chkNConv(msg['text']) == u'/query' or chkNConv(msg['text']) == u'某日係 day 幾':
                 self._asking_date = True
-                self.sender.sendMessage(text=u'Which date ar ?', reply_marku={'hide_keyboard': True})
+                self.sender.sendMessage(text=u'Which date ar ?', reply_markup={'hide_keyboard': True})
             elif chkNConv(msg['text']) == u'/No' :
                 self._asking_date = False
                 self.sender.sendMessage(text=u'Bye !',
