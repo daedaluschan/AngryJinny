@@ -54,7 +54,7 @@ class AngryJinny(telepot.helper.ChatHandler):
     def genBuyList(self):
         buy_list = u'要買呢D：\n\n'
         for item in to_buy_list:
-            buy_list = buy_list + u'- ' chkNConv(item) + u'\n'
+            buy_list = buy_list + u'- ' + chkNConv(item) + u'\n'
 
         return buy_list
 
