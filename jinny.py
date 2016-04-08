@@ -67,7 +67,7 @@ class AngryJinny(telepot.helper.ChatHandler):
             self.bot.sendMessage(white_user, self.genBuyList())
 
     def writeListToFile(self):
-        with open(name='list,txt', mode='w', encoding='UTF-8') as f:
+        with open(name='list,txt', mode='w') as f:
             for item in to_buy_list:
                 f.write(chkNConv(item) + u'\n')
         f.close()
