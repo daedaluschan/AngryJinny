@@ -80,6 +80,7 @@ class AngryJinny(telepot.helper.ChatHandler):
     def boughtItem(self, del_index):
         del to_buy_list[del_index]
         self.writeListToFile()
+        self.sender.sendMessage(text=u'Okay。依家仲' + self.genBuyList(), reply_markup=self.genKeyboard())
 
     def on_message(self, msg):
         print('on_message() is being called')
