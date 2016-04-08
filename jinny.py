@@ -69,7 +69,8 @@ class AngryJinny(telepot.helper.ChatHandler):
     def writeListToFile(self):
         with open(name='list.txt', mode='w') as f:
             for item in to_buy_list:
-                f.write(chkNConv(item) + '\n')
+                f.write(chkNConv(item))
+                f.write('\n')
         f.close()
 
     def on_message(self, msg):
