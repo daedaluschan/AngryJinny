@@ -10,9 +10,12 @@ from types import *
 from chk_n_conv import  chkNConv
 from enum import Enum
 
+to_buy_list = []
+
 class ConverType(Enum):
     nothing = 1
-    create_poll = 2
+    asking_date = 2
+    adding_to_buy = 3
 
 class Jinny:
   myName = u'Jinny Chan'
@@ -39,17 +42,9 @@ class Jinny:
 class AngryJinny(telepot.helper.ChatHandler):
     def __init__(self, seed_tuple, timeout):
         super(AngryJinny, self).__init__(seed_tuple, timeout)
-        self._asking_date = False
-        self.to_buy_list = []
+        # self._asking_date = False
+        self._convert_type = ConverType.nothing
         print('constructor is being called')
-
-    @property
-    def to_buy_list(self):
-        return self._to_buy_list
-
-    @to_buy_list.setter
-    def to_buy_list(self, value):
-        self._to_buy_list = value
 
     def genKeyboard(self):
         print('generate keyboard')
@@ -76,13 +71,15 @@ class AngryJinny(telepot.helper.ChatHandler):
                                                        u'/query - check my day count for a particular date. \n',
                                         reply_markup=self.genKeyboard())
             elif chkNConv(msg['text']) == u'/query' or chkNConv(msg['text']) == u'某日係 day 幾':
-                self._asking_date = True
+                # self._asking_date = True
+                self._convert_type = ConverType.asking_date
                 self.sender.sendMessage(text=u'Which date ar ?', reply_markup={'hide_keyboard': True})
             elif chkNConv(msg['text']) == u'/No' :
-                self._asking_date = False
+                # self._asking_date = False
+                self._convert_type = ConverType.nothing
                 self.sender.sendMessage(text=u'Bye !',
                                         reply_markup=self.genKeyboard())
-            elif self._asking_date:
+            elif self._convert_type == ConverType.asking_date:
                 try :
                     self.sender.sendMessage(text=u'For ' + chkNConv(msg['text']) + u', It is my day ' +
                                                  chkNConv(str(Jinny.getNumOfDaysSpecific(msg['text']))) +
