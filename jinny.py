@@ -73,12 +73,6 @@ class AngryJinny(telepot.helper.ChatHandler):
                 f.write(u'\n'.encode('utf-8'))
         f.close()
 
-    def readFromFile(self):
-        with open(name=file_name, mode='r') as f:
-            lines = f.read().splitlines()
-        f.close()
-
-        to_buy_list = lines
 
 
     def on_message(self, msg):
@@ -146,6 +140,11 @@ class AngryJinny(telepot.helper.ChatHandler):
         print(u'to buy list: ' + self.genBuyList())
 
 TOKEN = sys.argv[1]  # get token from command-line
+
+with open(name=file_name, mode='r') as f:
+    lines = f.read().splitlines()
+f.close()
+to_buy_list = lines
 
 bot = telepot.DelegatorBot(TOKEN, [
     (per_chat_id(), create_open(AngryJinny, timeout=30)),])
