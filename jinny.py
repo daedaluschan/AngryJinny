@@ -91,7 +91,7 @@ class AngryJinny(telepot.helper.ChatHandler):
                     self._convert_type = ConverType.adding_to_buy
                     self.sender.sendMessage(text=u'買乜？', reply_markup={'hide_keyboard': True})
                 elif chkNConv(msg['text']) == u'有乜未買？':
-                    self.sender.sendMessage(text=self.genBuyList(), reply_markup={'hide_keyboard': True})
+                    self.sender.sendMessage(text=self.genBuyList(), reply_markup=self.genKeyboard())
                 else:
                     self.sender.sendMessage(text=u'我唔明呀。\n' +
                                                  u'你試多次啦。或者用 /help 我就教你用。')
