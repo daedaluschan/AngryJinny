@@ -46,7 +46,6 @@ class Jinny:
 class AngryJinny(telepot.helper.ChatHandler):
     def __init__(self, seed_tuple, timeout):
         super(AngryJinny, self).__init__(seed_tuple, timeout)
-        # self._asking_date = False
         self._convert_type = ConverType.nothing
         print('constructor is being called')
 
@@ -61,6 +60,11 @@ class AngryJinny(telepot.helper.ChatHandler):
             buy_list = buy_list + u'- ' + chkNConv(item) + u'\n'
 
         return buy_list
+
+    def doneWithBuyList(self):
+        self.sender.sendMessage(text=u'Bye', reply_markup=self.genKeyboard())
+        for white_user in white_list:
+            self.bot.sendMessage(white_user, self.genBuyList())
 
     def on_message(self, msg):
         print('on_message() is being called')
@@ -85,11 +89,9 @@ class AngryJinny(telepot.helper.ChatHandler):
                                                                u'/query - check my day count for a particular date. \n',
                                                 reply_markup=self.genKeyboard())
                     elif chkNConv(msg['text']) == u'/query' or chkNConv(msg['text']) == u'某日係 day 幾':
-                        # self._asking_date = True
                         self._convert_type = ConverType.asking_date
                         self.sender.sendMessage(text=u'邊日呀 ?', reply_markup={'hide_keyboard': True})
                     elif chkNConv(msg['text']) == u'/No' :
-                        # self._asking_date = False
                         self._convert_type = ConverType.nothing
                         self.sender.sendMessage(text=u'Bye !',
                                                 reply_markup=self.genKeyboard())
@@ -112,7 +114,7 @@ class AngryJinny(telepot.helper.ChatHandler):
                 elif self._convert_type == ConverType.adding_to_buy:
                     if chkNConv(msg['text']) == u'/done':
                         self._convert_type = ConverType.nothing
-                        self.sender.sendMessage(text=u'Bye', reply_markup=self.genKeyboard())
+                        self.doneWithBuyList()
                     else:
                         to_buy_list.append(chkNConv(msg['text']))
                         self.sender.sendMessage(text=u'仲有冇？如果冇，就用 /done 完結。', reply_markup={'hide_keyboard': True})
