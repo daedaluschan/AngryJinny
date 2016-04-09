@@ -12,7 +12,7 @@ from enum import Enum
 import re
 
 to_buy_list = []
-white_list = [161517202]
+white_list = [161517202, 197627552]
 file_name = 'list.txt'
 
 class ConverType(Enum):
