@@ -66,9 +66,9 @@ class AngryJinny(telepot.helper.ChatHandler):
         return buy_list
 
     def doneWithBuyList(self):
-        self.sender.sendMessage(text=u'Bye', reply_markup=self.genKeyboard())
+        self.sender.sendMessage(text=u'Bye')
         for white_user in white_list:
-            self.bot.sendMessage(white_user, self.genBuyList())
+            self.bot.sendMessage(white_user, text=self.genBuyList(), reply_markup=self.genKeyboard())
 
     def writeListToFile(self):
         with open(name=file_name, mode='w') as f:
@@ -78,9 +78,12 @@ class AngryJinny(telepot.helper.ChatHandler):
         f.close()
 
     def boughtItem(self, del_index):
+        item_name = to_buy_list[del_index]
         del to_buy_list[del_index]
         self.writeListToFile()
-        self.sender.sendMessage(text=u'Okay。依家仲' + self.genBuyList(), reply_markup=self.genKeyboard())
+        # self.sender.sendMessage(text=u'Okay。依家仲' + self.genBuyList(), reply_markup=self.genKeyboard())
+        for white_user in white_list:
+            self.bot.sendMessage(white_user, text=u'買左：' + chkNConv(item_name), reply_markup=self.genKeyboard())
 
     def on_message(self, msg):
         print('on_message() is being called')
