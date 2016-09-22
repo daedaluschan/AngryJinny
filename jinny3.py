@@ -162,12 +162,13 @@ with open(file=file_name, mode='r') as f:
 f.close()
 to_buy_list = lines
 
-bot = telepot.DelegatorBot(TOKEN, [
-    (per_chat_id(), create_open(AngryJinny, timeout=120)),])
+# bot = telepot.DelegatorBot(TOKEN, [
+#     (per_chat_id(), create_open(AngryJinny, timeout=120)),])
 bot = telepot.DelegatorBot(TOKEN, [
     pave_event_space()(
-        per_chat_id(), create_open, MessageCounter, timeout=10),
+        per_chat_id(), create_open, AngryJinny, timeout=120),
 ])
-print('Listening ...')
-bot.notifyOnMessage(run_forever=True)
+# print('Listening ...')
+# bot.notifyOnMessage(run_forever=True)
+bot.message_loop(run_forever='Listening ...')
 
