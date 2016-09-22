@@ -2,7 +2,7 @@
 __author__ = 'daedaluschan'
 
 import sys, time
-import telepot
+import telepot, pprint
 from telepot.delegate import pave_event_space, per_chat_id, create_open
 
 from datetime import date
@@ -14,6 +14,7 @@ import re
 to_buy_list = []
 white_list = [161517202, 197627552]
 file_name = 'list.txt'
+pp = pprint.PrettyPrinter(indent=4)
 
 class ConverType(Enum):
     nothing = 1
@@ -98,7 +99,7 @@ class AngryJinny(telepot.helper.ChatHandler):
         # normal message
         if flavor == 'chat':
             content_type, chat_type, _chat_id = telepot.glance(msg)
-            print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
+            pp.pprint('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
             if _chat_id in white_list :
 
