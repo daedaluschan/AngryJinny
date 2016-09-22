@@ -62,7 +62,7 @@ class AngryJinny(telepot.helper.ChatHandler):
         show_keyboard = {'keyboard': [[u'今日 day 幾',u'某日係 day 幾'], [u'有乜未買？', u'有野要買']]}
 
         for idx, item in enumerate(to_buy_list):
-            show_keyboard['keyboard'].append([u'買左[' + idx.__str__() + u']： ' + item)]
+            show_keyboard['keyboard'].append([u'買左[' + idx.__str__() + u']： ' + item])
         return show_keyboard
 
     def genBuyList(self):
