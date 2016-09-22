@@ -106,15 +106,15 @@ class AngryJinny(telepot.helper.ChatHandler):
             if _chat_id in white_list :
 
                 if self._convert_type == ConverType.nothing:
-                    if chkNConv(msg['text']) == u'/start' or chkNConv(msg['text']) == u'/today' or chkNConv(msg['text']) == u'今日 day 幾':
-                        self.sender.sendMessage(text=u'Today is ' + chkNConv(str(date.today())) + u'. \n' +
-                                                               u'It is my day ' + chkNConv(str(Jinny.getNumOfDays())) + u'. \n' +
-                                                               u'Use /help for more options',
+                    if msg['text'] == u'/start' or msg['text'] == u'/today' or msg['text'] == u'今日 day 幾':
+                        self.sender.sendMessage(text=u'Today is ' + str(date.today()) + u'. \n' +
+                                                     u'It is my day ' + chkNConv(str(Jinny.getNumOfDays())) + u'. \n' +
+                                                     u'Use /help for more options',
                                                 reply_markup=self.genKeyboard())
                     elif chkNConv(msg['text']) == u'/help':
                         self.sender.sendMessage(text=u'/today - get today\'s date and my day count. \n' +
-                                                               u'/help - for those who have bad memory. \n' +
-                                                               u'/query - check my day count for a particular date. \n',
+                                                     u'/help - for those who have bad memory. \n' +
+                                                     u'/query - check my day count for a particular date. \n',
                                                 reply_markup=self.genKeyboard())
                     elif chkNConv(msg['text']) == u'/query' or chkNConv(msg['text']) == u'某日係 day 幾':
                         self._convert_type = ConverType.asking_date
@@ -128,7 +128,7 @@ class AngryJinny(telepot.helper.ChatHandler):
                         self.sender.sendMessage(text=u'買乜？', reply_markup={'hide_keyboard': True})
                     elif chkNConv(msg['text']) == u'有乜未買？':
                         self.sender.sendMessage(text=self.genBuyList(), reply_markup=self.genKeyboard())
-                    elif re.compile(u'買左\[\d+\].*').match(chkNConv(msg['text'])) != None:
+                    elif re.compile(u'買左\[\d+\].*').match(msg['text']) is None:
                         match_obj = re.compile(u'買左\[(\d+)\].*').match(chkNConv(msg['text']))
                         del_index = match_obj.group(1)
                         self.boughtItem(del_index=int(del_index))
