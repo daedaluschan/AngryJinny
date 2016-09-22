@@ -99,7 +99,8 @@ class AngryJinny(telepot.helper.ChatHandler):
         # normal message
         if flavor == 'chat':
             content_type, chat_type, _chat_id = telepot.glance(msg)
-            print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
+            print('Normal Message:', content_type, chat_type, _chat_id,)
+            print('=============================\n\nmessage content: ')
             pp.pprint(msg)
 
             if _chat_id in white_list :
