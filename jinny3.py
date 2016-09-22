@@ -3,7 +3,7 @@ __author__ = 'daedaluschan'
 
 import sys, time
 import telepot
-from telepot.delegate import per_chat_id, create_open
+from telepot.delegate import pave_event_space, per_chat_id, create_open
 
 from datetime import date
 from types import *
@@ -32,7 +32,8 @@ class Jinny:
 
   @staticmethod
   def getNumOfDaysSpecific(whichDateIn):
-    if type(whichDateIn) is StringType or type(whichDateIn) is UnicodeType:
+    if isinstance(whichDateIn, str):
+    # if type(whichDateIn) is StringType or type(whichDateIn) is UnicodeType:
       whichDate = u''
       for charact in whichDateIn:
         if charact.isdigit():
@@ -163,6 +164,10 @@ to_buy_list = lines
 
 bot = telepot.DelegatorBot(TOKEN, [
     (per_chat_id(), create_open(AngryJinny, timeout=120)),])
+bot = telepot.DelegatorBot(TOKEN, [
+    pave_event_space()(
+        per_chat_id(), create_open, MessageCounter, timeout=10),
+])
 print('Listening ...')
 bot.notifyOnMessage(run_forever=True)
 
