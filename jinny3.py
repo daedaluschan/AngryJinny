@@ -157,7 +157,7 @@ class AngryJinny(telepot.helper.ChatHandler):
 TOKEN = sys.argv[1]  # get token from command-line
 
 with open(file=file_name, mode='r') as f:
-    lines = f.read().decode('utf-8').splitlines()
+    lines = f.read().splitlines()
 f.close()
 to_buy_list = lines
 
