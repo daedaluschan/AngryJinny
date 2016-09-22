@@ -96,7 +96,7 @@ class AngryJinny(telepot.helper.ChatHandler):
         flavor = telepot.flavor(msg)
 
         # normal message
-        if flavor == 'normal':
+        if flavor == 'chat':
             content_type, chat_type, _chat_id = telepot.glance2(msg)
             print('Normal Message:', content_type, chat_type, _chat_id, '; message content: ', msg)
 
@@ -156,7 +156,7 @@ class AngryJinny(telepot.helper.ChatHandler):
             else:
                 self.sender.sendMessage(text=u'你邊位呀？')
         else:
-            raise telepot.BadFlavor(msg)
+            raise telepot.exception.BadFlavor(msg)
 
         print(u'to buy list: ' + self.genBuyList())
 
