@@ -46,8 +46,13 @@ class Jinny:
 
 
 class AngryJinny(telepot.helper.ChatHandler):
-    def __init__(self, seed_tuple, timeout):
-        super(AngryJinny, self).__init__(seed_tuple, timeout)
+    #def __init__(self, seed_tuple, timeout):
+    #    super(AngryJinny, self).__init__(seed_tuple, timeout)
+    #    self._convert_type = ConverType.nothing
+    #    print('constructor is being called')
+
+    def __init__(self, *args, **kwargs):
+        super(AngryJinny, self).__init__(*args, **kwargs)
         self._convert_type = ConverType.nothing
         print('constructor is being called')
 
