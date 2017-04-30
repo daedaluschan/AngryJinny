@@ -78,10 +78,12 @@ class AngryJinny(telepot.helper.ChatHandler):
             self.bot.sendMessage(white_user, text=self.genBuyList(), reply_markup=self.genKeyboard())
 
     def writeListToFile(self):
-        with open(name=file_name, mode='w') as f:
+        with open(file_name, mode='w') as f:
             for item in to_buy_list:
-                f.write(item.encode('utf-8'))
-                f.write(u'\n'.encode('utf-8'))
+                # f.write(item.encode('utf-8'))
+                f.write(item)
+                # f.write(u'\n'.encode('utf-8'))
+                f.write(u'\n')
         f.close()
 
     def boughtItem(self, del_index):
@@ -128,7 +130,8 @@ class AngryJinny(telepot.helper.ChatHandler):
                         self.sender.sendMessage(text=u'買乜？', reply_markup={'hide_keyboard': True})
                     elif msg['text'] == u'有乜未買？':
                         self.sender.sendMessage(text=self.genBuyList(), reply_markup=self.genKeyboard())
-                    elif re.compile(u'買左\[\d+\].*').match(msg['text']) is None:
+                    elif re.compile('買左\[\d+\].*').match(msg['text']) is not None:
+                        print('MATCHED.')
                         match_obj = re.compile(u'買左\[(\d+)\].*').match(msg['text'])
                         del_index = match_obj.group(1)
                         self.boughtItem(del_index=int(del_index))
@@ -141,8 +144,9 @@ class AngryJinny(telepot.helper.ChatHandler):
                         self.sender.sendMessage(text=u'For ' + msg['text'] + u', It is my day ' +
                                                      str(Jinny.getNumOfDaysSpecific(msg['text'])) +
                                                      u'. Any other date to ask ? /No ?')
+                        self._convert_type = ConverType.nothing;
                     except BaseException :
-                        self.sender.sendMessage(text=u'Not a data that I can understand ! \n' +
+                        self.sender.sendMessage(text=u'Not a date that I can understand ! \n' +
                                                      u'What date (YYYYMMDD) ? \nOr you done ? ( /No )')
                 elif self._convert_type == ConverType.adding_to_buy:
                     if msg['text'] == u'/done':
