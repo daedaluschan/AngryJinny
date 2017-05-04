@@ -13,7 +13,8 @@ import re
 
 to_buy_list = []
 white_list = [161517202, 197627552]
-file_name = 'list.txt'
+# file_name = 'list.txt'
+file_name = sys.argv[2]
 pp = pprint.PrettyPrinter(indent=4)
 
 class ConverType(Enum):
