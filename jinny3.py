@@ -7,7 +7,7 @@ from telepot.delegate import pave_event_space, per_chat_id, create_open
 
 from datetime import date
 from types import *
-from chk_n_conv import  chkNConv
+# from chk_n_conv import  chkNConv
 from enum import Enum
 import re
 
