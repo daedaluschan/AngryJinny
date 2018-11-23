@@ -7,4 +7,4 @@ ENV JINNY_KEY=XXXXX \
 
 COPY . /app
 
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
