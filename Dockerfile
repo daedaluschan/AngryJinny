@@ -2,9 +2,9 @@ FROM python:3
 
 WORKDIR /app
 
-ENV JINNY_KEY=XXXXX \
-    JINNY_DIR=/app/data \
-    JINNY_FILE=${JINNY_DIR}/jinny.txt
+ENV JINNY_KEY=xxxxx \
+    JINNY_DIR=/app/data
+ENV JINNY_FILE=${JINNY_DIR}/jinny.txt
 
 COPY . /app
 
